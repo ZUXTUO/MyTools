@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">极力工具箱</string>
+    <string name="brightness_title">亮度</string>
+    <string name="brightness_desc">突破系统限制进一步调暗屏幕，保护您的视力</string>
+    <string name="volume_title">音量</string>
+    <string name="volume_desc">突破系统最低音量限制，让声音更加轻盈适宜</string>
+    <string name="perm_request">请授予悬浮窗权限以使用亮度调节功能</string>
+    <string name="perm_denied">权限未授予，亮度功能不可用</string>
+    <string name="service_title">极力工具箱</string>
+    <string name="service_desc">亮度控制已启动</string>
+    <string name="random_title">随机数</string>
+    <string name="random_desc">利用环境传感器采集的自然熵值计算生成的真随机数</string>
+    <string name="random_btn">获得随机值</string>
+    <string name="random_res_plus">正 (+)</string>
+    <string name="random_res_minus">负 (-)</string>
+    <string name="perm_notif_request">请授予通知权限以确保后台服务正常运行</string>
+</resources>

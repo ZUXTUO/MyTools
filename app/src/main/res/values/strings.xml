@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MyTools</string>
+    <string name="brightness_title">Brightness</string>
+    <string name="brightness_desc">Dim screen below system limits to better protect your eyes</string>
+    <string name="volume_title">Volume</string>
+    <string name="volume_desc">Reduce audio below system minimum for a quieter experience</string>
+    <string name="perm_request">Please grant overlay permission to use brightness adjustment</string>
+    <string name="perm_denied">Permission denied, brightness function unavailable</string>
+    <string name="service_title">MyTools</string>
+    <string name="service_desc">Brightness control active</string>
+    <string name="random_title">Random Number</string>
+    <string name="random_desc">True random results generated from environmental sensor entropy</string>
+    <string name="random_btn">Get Result</string>
+    <string name="random_res_plus">+</string>
+    <string name="random_res_minus">-</string>
+    <string name="perm_notif_request">Please grant notification permission for background services</string>
+</resources>

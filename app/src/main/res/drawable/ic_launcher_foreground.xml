@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Gear Outline (Simplified) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,34c-11,0 -20,9 -20,20s9,20 20,20s20,-9 20,-20S65,34 54,34zM54,69c-8.3,0 -15,-6.7 -15,-15s6.7,-15 15,-15s15,6.7 15,15S62.3,69 54,69z" />
+    
+    <!-- Gear Teeth -->
+    <path android:fillColor="#FFFFFF" android:pathData="M52,28h4v8h-4z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M52,72h4v8h-4z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M28,52h8v4h-8z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M72,52h8v4h-8z" />
+    
+    <path android:fillColor="#FFFFFF" android:pathData="M37.3,34.5l5.7,5.7l-2.8,2.8l-5.7,-5.7z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M67.8,65l5.7,5.7l-2.8,2.8l-5.7,-5.7z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M37.3,73.5l-5.7,-5.7l2.8,-2.8l5.7,5.7z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M67.8,43l5.7,-5.7l2.8,2.8l-5.7,5.7z" />
+
+    <!-- Slider Bar -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34,53h40v2h-40z" />
+
+    <!-- Slider Knob (Sun / Brightness) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,54c0,2.2 -1.8,4 -4,4s-4,-1.8 -4,-4s1.8,-4 4,-4S44,51.8 44,54z" />
+    <!-- Sun rays -->
+    <path android:fillColor="#FFFFFF" android:pathData="M40,48h0.1v1h-0.1zM40,59h0.1v1h-0.1zM34,54h1v0.1h-1zM45,54h1v0.1h-1z" />
+
+    <!-- Volume Indicator (Speaker) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M68,51v6l-3,-2h-2v-2h2z" />
+</vector>
