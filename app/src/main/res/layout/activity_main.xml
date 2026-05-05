@@ -34,6 +34,37 @@
             android:alignmentMode="alignMargins"
             android:rowOrderPreserved="false">
 
+            <!-- Settings App -->
+            <LinearLayout
+                android:id="@+id/app_settings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingVertical="20dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+                
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@drawable/ic_settings"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_circle_button"
+                    app:tint="@color/color_on_accent" />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium" />
+            </LinearLayout>
+
             <!-- Brightness App -->
             <LinearLayout
                 android:id="@+id/app_brightness"
@@ -121,6 +152,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/random_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium" />
+            </LinearLayout>
+
+            <!-- Anti-Motion Sickness -->
+            <LinearLayout
+                android:id="@+id/app_anti_motion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingVertical="20dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+                
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@drawable/ic_anti_motion"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_circle_button"
+                    app:tint="@color/color_on_accent" />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/anti_motion_title"
                     android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"

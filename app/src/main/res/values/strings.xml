@@ -8,9 +8,9 @@
     <string name="perm_denied">Permission denied, brightness function unavailable</string>
     <string name="service_title">MyTools</string>
     <string name="service_desc">Brightness control active</string>
-    <string name="random_title">Random Number</string>
-    <string name="random_desc">True random results generated from environmental sensor entropy</string>
-    <string name="random_btn">Get Result</string>
+    <string name="random_title">Decision Maker</string>
+    <string name="random_desc">Solve choice paralysis using true entropy from environmental sensors</string>
+    <string name="random_btn">Make Decision</string>
     <string name="random_res_plus">+</string>
     <string name="random_res_minus">-</string>
     <string name="perm_notif_request">Please grant notification permission for background services</string>
@@ -47,4 +47,28 @@
     <string name="no_models_found">No models found</string>
     <string name="parse_error">Parse error</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="settings_title">Settings</string>
+    <string name="clear_data">Clear Stored Data</string>
+    <string name="enable_notif_bar">Enable Notification Bar</string>
+    <string name="data_cleared">All data cleared</string>
+    <string name="brightness_plus">Brightness +</string>
+    <string name="brightness_minus">Brightness -</string>
+    <string name="volume_plus">Volume +</string>
+    <string name="volume_minus">Volume -</string>
+    <string name="anti_motion_title">Motion Cues</string>
+    <string name="anti_motion_desc">Display dynamic dots to synchronize visual and vestibular signals to reduce motion sickness</string>
+    <string name="anti_motion_enabled">Motion Cues Enabled</string>
+    <string name="anti_motion_disabled">Motion Cues Disabled</string>
+    <string name="anti_motion_color_title">Motion Cues Color</string>
+    <string-array name="motion_color_options">
+        <item>White</item>
+        <item>Black</item>
+        <item>Gray</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+        <item>Cyan</item>
+        <item>Magenta</item>
+    </string-array>
 </resources>

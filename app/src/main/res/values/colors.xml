@@ -25,4 +25,5 @@
     <color name="accent">#000000</color>
     <color name="background">#FFFFFF</color>
     <color name="color_on_accent">#FFFFFF</color>
+    <color name="bg_card">#F8F8F8</color>
 </resources>

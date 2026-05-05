@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/notif_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <!-- Brightness Controls -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/brightness_title"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/btn_brightness_minus"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_remove"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/brightness_minus"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/text_brightness_value"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="100%"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageButton
+            android:id="@+id/btn_brightness_plus"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_add"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/brightness_plus"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#1A888888"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <!-- Volume Controls -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/volume_title"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/btn_volume_minus"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_remove"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/volume_minus"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/text_volume_value"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="100%"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageButton
+            android:id="@+id/btn_volume_plus"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_add"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/volume_plus"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+</LinearLayout>

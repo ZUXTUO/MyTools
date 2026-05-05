@@ -1,5 +1,6 @@
 package com.olsc.mytools;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.Sensor;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int REQUEST_OVERLAY_PERMISSION = 1001;
     private static final int REQUEST_NOTIF_PERMISSION = 1002;
 
+    private com.olsc.mytools.util.PrefsHelper prefsHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
         getWindow().setNavigationBarColor(android.graphics.Color.TRANSPARENT);
+
+        androidx.core.view.WindowInsetsControllerCompat controller = androidx.core.view.WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        boolean isDarkMode = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        controller.setAppearanceLightStatusBars(!isDarkMode);
+        controller.setAppearanceLightNavigationBars(!isDarkMode);
 
         setContentView(R.layout.activity_main);
 
@@ -67,11 +75,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         registerSensors();
 
+        prefsHelper = new com.olsc.mytools.util.PrefsHelper(this);
+
         checkPermissions();
         setupDesktopIcons();
         
         // Start essential services
-        startService(new Intent(this, VolumeService.class));
+        if (prefsHelper.isNotifEnabled()) {
+            startService(new Intent(this, VolumeService.class));
+            startBrightnessService();
+        }
     }
 
     private void setupDesktopIcons() {
@@ -81,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.app_ai_chat).setOnClickListener(v -> {
             startActivity(intentWithProvider(AiChatActivity.class));
         });
+        findViewById(R.id.app_settings).setOnClickListener(v -> {
+            startActivity(new Intent(this, SettingsActivity.class));
+        });
+        findViewById(R.id.app_anti_motion).setOnClickListener(v -> toggleAntiMotionMode());
     }
 
     private Intent intentWithProvider(Class<?> cls) {
@@ -99,19 +116,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         title.setText(R.string.brightness_title);
         desc.setText(R.string.brightness_desc);
         
-        // Current value logic (simplified)
-        seekBar.setProgress(100);
-        valueText.setText("100%");
+        // Current value logic: load from prefs
+        int savedProgress = prefsHelper.getBrightness();
+        seekBar.setProgress(savedProgress);
+        valueText.setText(savedProgress + "%");
+        
+        // Apply immediately when clicking/opening if it's the first time in this session or as requested
+        applyBrightness(savedProgress);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 valueText.setText(progress + "%");
-                Intent intent = new Intent(BrightnessService.ACTION_UPDATE_BRIGHTNESS);
-                intent.putExtra(BrightnessService.EXTRA_BRIGHTNESS, progress / 100.0f);
-                sendBroadcast(intent);
-                intent.setClass(MainActivity.this, BrightnessService.class);
-                startService(intent);
+                applyBrightness(progress);
+                if (fromUser) {
+                    prefsHelper.saveBrightness(progress);
+                }
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -132,18 +152,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         
         title.setText(R.string.volume_title);
         desc.setText(R.string.volume_desc);
-        seekBar.setProgress(100);
-        valueText.setText("100%");
+        
+        int savedVolume = prefsHelper.getVolume();
+        seekBar.setProgress(savedVolume);
+        valueText.setText(savedVolume + "%");
+        
+        // Apply immediately
+        applyVolume(savedVolume);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 valueText.setText(progress + "%");
-                float reduction = 1.0f - (progress / 100.0f);
-                Intent intent = new Intent(MainActivity.this, VolumeService.class);
-                intent.setAction(VolumeService.ACTION_UPDATE_VOLUME);
-                intent.putExtra(VolumeService.EXTRA_VOLUME_REDUCTION, reduction);
-                startService(intent);
+                applyVolume(progress);
+                if (fromUser) {
+                    prefsHelper.saveVolume(progress);
+                }
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -248,7 +272,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 return;
             }
         }
-        startBrightnessService();
+        if (prefsHelper.isNotifEnabled()) {
+            startBrightnessService();
+        }
+    }
+
+    private void applyBrightness(int progress) {
+        Intent intent = new Intent(BrightnessService.ACTION_UPDATE_BRIGHTNESS);
+        intent.putExtra(BrightnessService.EXTRA_BRIGHTNESS, progress / 100.0f);
+        sendBroadcast(intent);
+        intent.setClass(this, BrightnessService.class);
+        if (prefsHelper.isNotifEnabled()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent);
+            else startService(intent);
+        } else {
+            startService(intent);
+        }
+    }
+
+    private void applyVolume(int progress) {
+        float reduction = 1.0f - (progress / 100.0f);
+        Intent intent = new Intent(this, VolumeService.class);
+        intent.setAction(VolumeService.ACTION_UPDATE_VOLUME);
+        intent.putExtra(VolumeService.EXTRA_VOLUME_REDUCTION, reduction);
+        startService(intent);
     }
 
     @Override
@@ -267,5 +314,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_OVERLAY_PERMISSION) checkPermissions(); 
+    }
+
+    private void toggleAntiMotionMode() {
+        Intent intent = new Intent(this, AntiMotionSicknessService.class);
+        boolean isRunning = isServiceRunning(AntiMotionSicknessService.class);
+        if (isRunning) {
+            stopService(intent);
+            Toast.makeText(this, R.string.anti_motion_disabled, Toast.LENGTH_SHORT).show();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent);
+            else startService(intent);
+            Toast.makeText(this, R.string.anti_motion_enabled, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        android.app.ActivityManager manager = (android.app.ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (android.app.ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

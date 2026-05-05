@@ -21,4 +21,5 @@
     <color name="primary">#FFFFFF</color>
     <color name="accent">#FFFFFF</color>
     <color name="color_on_accent">#000000</color>
+    <color name="bg_card">#1E1E1E</color>
 </resources>

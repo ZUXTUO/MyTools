@@ -34,14 +34,31 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
         <service
             android:name=".BrightnessService"
             android:exported="false"
-            android:foregroundServiceType="specialUse" />
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_TYPE"
+                android:value="Screen dimming overlay requires background service to maintain persistent visual filter above system limits." />
+        </service>
 
         <service
             android:name=".VolumeService"
             android:exported="false" />
+
+        <service
+            android:name=".AntiMotionSicknessService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_TYPE"
+                android:value="Motion cues overlay requires real-time sensor processing and persistent visual overlay to mitigate motion sickness." />
+        </service>
 
     </application>
 
