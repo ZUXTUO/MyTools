@@ -14,4 +14,37 @@
     <string name="random_res_plus">+</string>
     <string name="random_res_minus">-</string>
     <string name="perm_notif_request">Please grant notification permission for background services</string>
+    <string name="ai_chat_title">AI Chat</string>
+    <string name="ai_chat_desc">Intelligent assistant supporting OpenAI, Claude and more</string>
+    <string name="ai_chat_btn">Open Chat</string>
+    <string name="settings">Settings</string>
+    <string name="api_url">API Base URL</string>
+    <string name="api_key">API Key</string>
+    <string name="ai_model">AI Model</string>
+    <string name="api_provider">API Provider</string>
+    
+    <string-array name="provider_options">
+        <item>智谱清言 (Zhipu AI)</item>
+        <item>本地服务 (LM Studio)</item>
+    </string-array>
+    <string name="system_prompt">System Prompt</string>
+    <string name="context_enabled">Contextual Memory</string>
+    <string name="think_mode_enabled">Thinking Process</string>
+    <string name="send">Send</string>
+    <string name="hint_message">Ask anything...</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="think_header">Thinking Process</string>
+    <string name="api_key_missing">Please set API Key in settings first</string>
+    <string name="save_success">Settings saved</string>
+    <string name="random_fail">Randomization failed</string>
+    <string name="error_http">Network Error: </string>
+    <string name="error_parse">Response parsing failed</string>
+    <string name="clear_history_title">Clear History</string>
+    <string name="clear_history_confirm">Are you sure you want to delete all chat history? This cannot be undone.</string>
+    <string name="confirm">Confirm</string>
+    <string name="select_model">Select Model</string>
+    <string name="no_models_found">No models found</string>
+    <string name="parse_error">Parse error</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
 </resources>

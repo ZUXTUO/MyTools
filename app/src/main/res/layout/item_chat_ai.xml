@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="8dp"
+            android:minWidth="200dp"
+            android:background="@drawable/bg_bubble_ai"
+            android:padding="4dp"
+            android:animateLayoutChanges="true">
+
+            <!-- Thinking Section -->
+            <LinearLayout
+                android:id="@+id/think_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_think_section"
+                android:visibility="gone"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:id="@+id/btn_toggle_think"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="12dp"
+                        android:background="@color/accent_chat"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/think_header"
+                        android:textColor="@color/accent_chat"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <ImageView
+                        android:id="@+id/iv_think_arrow"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_collapse"
+                        app:tint="@color/accent_chat" />
+                </LinearLayout>
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/think_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp">
+                    
+                    <TextView
+                        android:id="@+id/tv_think"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="12dp"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/think_text"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-light"
+                        android:lineSpacingExtra="2sp"
+                        android:alpha="0.8" />
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+
+            <!-- Content Section -->
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/bubble_ai_text"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_copy"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_copy"
+            app:tint="@color/text_secondary"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginBottom="4dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

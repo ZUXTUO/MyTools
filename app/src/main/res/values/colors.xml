@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Zen Palette -->
-    <color name="primary">#A5F3FC</color> <!-- Soft Cyan -->
-    <color name="accent">#22D3EE</color>
+    <!-- Core Palette (Light Mode defaults) -->
+    <color name="bg_main">#FFFFFF</color>
+    <color name="bg_surface">#F5F5F5</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#666666</color>
+    <color name="accent_chat">#000000</color>
     
-    <color name="background">#020617</color> <!-- Very deep midnight -->
-    <color name="surface">#0F172A</color>
-    <color name="card_border">#1E293B</color>
+    <color name="bubble_user">#000000</color>
+    <color name="bubble_user_text">#FFFFFF</color>
+    <color name="bubble_ai">#F0F0F0</color>
+    <color name="bubble_ai_text">#000000</color>
+    <color name="bubble_ai_border">#E0E0E0</color>
     
-    <color name="text_primary">#F8FAFC</color>
-    <color name="text_secondary">#64748B</color>
+    <color name="think_bg">#FAFAFA</color>
+    <color name="think_text">#888888</color>
+    <color name="input_bg">#F5F5F5</color>
     
+    <!-- Static Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+    <color name="primary">#000000</color>
+    <color name="accent">#000000</color>
+    <color name="background">#FFFFFF</color>
+    <color name="color_on_accent">#FFFFFF</color>
 </resources>

@@ -1,0 +1,170 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_settings_dialog"
+    android:padding="28dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="24dp" />
+
+        <!-- API Provider -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/api_provider"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/settings_api_provider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- API URL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/api_url"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/settings_api_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
+            android:hint="https://api.openai.com/v1"
+            android:singleLine="true" />
+
+        <!-- API KEY -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/api_key"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/settings_api_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
+            android:hint="sk-..."
+            android:password="true"
+            android:singleLine="true" />
+
+        <!-- AI Model -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ai_model"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/settings_ai_model"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:hint="gpt-4o, claude-3-opus, etc."
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/btn_fetch_models"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_input_field"
+                android:src="@drawable/ic_refresh"
+                android:padding="8dp"
+                app:tint="@color/accent_chat"
+                android:contentDescription="Fetch Models" />
+        </LinearLayout>
+
+        <!-- System Prompt -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/system_prompt"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/settings_system_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
+            android:minLines="2"
+            android:gravity="top"
+            android:hint="You are a helpful assistant..." />
+
+        <!-- Toggles -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_context_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/context_enabled"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="12dp"
+            android:paddingVertical="8dp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_think_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/think_mode_enabled"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="24dp"
+            android:paddingVertical="8dp" />
+
+
+    </LinearLayout>
+</ScrollView>

@@ -14,4 +14,37 @@
     <string name="random_res_plus">正 (+)</string>
     <string name="random_res_minus">负 (-)</string>
     <string name="perm_notif_request">请授予通知权限以确保后台服务正常运行</string>
+    <string name="ai_chat_title">AI 聊天</string>
+    <string name="ai_chat_desc">智能助手，支持 OpenAI、Claude 等多种模型</string>
+    <string name="ai_chat_btn">开启对话</string>
+    <string name="settings">设置</string>
+    <string name="api_url">API 接口地址</string>
+    <string name="api_key">API 密钥 (Key)</string>
+    <string name="ai_model">AI 模型 (Model)</string>
+    <string name="api_provider">API 提供商</string>
+    
+    <string-array name="provider_options">
+        <item>智谱清言 (Zhipu AI)</item>
+        <item>本地服务 (LM Studio)</item>
+    </string-array>
+    <string name="system_prompt">系统提示词 (System Prompt)</string>
+    <string name="context_enabled">启用上下文记忆</string>
+    <string name="think_mode_enabled">显示思考过程</string>
+    <string name="send">发送</string>
+    <string name="hint_message">问我任何问题...</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="think_header">思考过程</string>
+    <string name="api_key_missing">请先在设置中配置 API Key</string>
+    <string name="save_success">设置已保存</string>
+    <string name="random_fail">生成随机数失败</string>
+    <string name="error_http">网络错误：</string>
+    <string name="error_parse">解析回复失败</string>
+    <string name="clear_history_title">清除历史记录</string>
+    <string name="clear_history_confirm">确定要删除所有聊天记录吗？此操作不可撤销。</string>
+    <string name="confirm">确定</string>
+    <string name="select_model">选择模型</string>
+    <string name="no_models_found">未找到可用模型</string>
+    <string name="parse_error">解析错误</string>
+    <string name="copied_to_clipboard">已复制到剪贴板</string>
 </resources>
