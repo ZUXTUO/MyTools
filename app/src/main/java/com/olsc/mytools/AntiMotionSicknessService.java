@@ -16,6 +16,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -27,7 +29,8 @@ import java.util.List;
 public class AntiMotionSicknessService extends Service implements SensorEventListener {
 
     private WindowManager windowManager;
-    private MotionCuesView motionCuesView;
+    private MotionCuesView leftView;
+    private MotionCuesView rightView;
     private SensorManager sensorManager;
     private Sensor linearAccelerationSensor;
 
@@ -48,9 +51,20 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
             sensorManager.registerListener(this, linearAccelerationSensor, SensorManager.SENSOR_DELAY_GAME);
         }
 
-        motionCuesView = new MotionCuesView(this);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
+        setupViews();
+    }
+
+    private void setupViews() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getRealMetrics(metrics);
+        // Each side takes 20% of the screen width
+        int sideWidth = (int) (metrics.widthPixels * 0.20f);
+
+        leftView = new MotionCuesView(this, false);
+        rightView = new MotionCuesView(this, true);
+
+        WindowManager.LayoutParams baseParams = new WindowManager.LayoutParams(
+                sideWidth,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
                         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
@@ -58,11 +72,22 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                         WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-                        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR,
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS |
+                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT
         );
 
-        windowManager.addView(motionCuesView, params);
+        // Left Side
+        WindowManager.LayoutParams leftParams = new WindowManager.LayoutParams();
+        leftParams.copyFrom(baseParams);
+        leftParams.gravity = Gravity.LEFT;
+        windowManager.addView(leftView, leftParams);
+
+        // Right Side
+        WindowManager.LayoutParams rightParams = new WindowManager.LayoutParams();
+        rightParams.copyFrom(baseParams);
+        rightParams.gravity = Gravity.RIGHT;
+        windowManager.addView(rightView, rightParams);
     }
 
     @Override
@@ -73,9 +98,10 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-            // Y: + is forward acceleration (up), dots should move down (+)
-            // X: + is left acceleration, dots should move right (+)
-            motionCuesView.setAcceleration(-event.values[0], event.values[1]);
+            float ax = -event.values[0];
+            float ay = event.values[1];
+            if (leftView != null) leftView.setAcceleration(ax, ay);
+            if (rightView != null) rightView.setAcceleration(ax, ay);
         }
     }
 
@@ -86,8 +112,9 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
     public void onDestroy() {
         super.onDestroy();
         if (sensorManager != null) sensorManager.unregisterListener(this);
-        if (windowManager != null && motionCuesView != null) {
-            windowManager.removeView(motionCuesView);
+        if (windowManager != null) {
+            if (leftView != null) windowManager.removeView(leftView);
+            if (rightView != null) windowManager.removeView(rightView);
         }
     }
 
@@ -119,41 +146,61 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
 
     private static class MotionCuesView extends View {
         private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        private float accelY;
-        private float filteredAccelY;
-        private float velY;
+        private float accelX, accelY;
+        private float filteredAccelX, filteredAccelY;
+        private float velX, velY;
         private int dotColor;
         private final Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private final Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private final Paint lineBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final List<Dot> dots = new ArrayList<>();
+        private final List<WindLine> windLines = new ArrayList<>();
         private long lastUpdateTime;
         private final float DOT_RADIUS = 22f;
         private final int DOTS_PER_SIDE = 12;
+        private final int LINES_PER_SIDE = 8;
+        private final boolean isRightSide;
 
-        public MotionCuesView(Context context) {
+        public MotionCuesView(Context context, boolean isRightSide) {
             super(context);
+            this.isRightSide = isRightSide;
             com.olsc.mytools.util.PrefsHelper prefs = new com.olsc.mytools.util.PrefsHelper(context);
             dotColor = prefs.getDotColor();
 
             paint.setColor(dotColor);
-            paint.setAlpha(180); // Higher opacity for visibility
+            paint.setAlpha(180);
 
             borderPaint.setStyle(Paint.Style.STROKE);
             borderPaint.setStrokeWidth(3f);
             borderPaint.setColor(Color.BLACK);
             borderPaint.setAlpha(200);
+
+            linePaint.setColor(dotColor);
+            linePaint.setStrokeWidth(10f);
+            linePaint.setStrokeCap(Paint.Cap.ROUND);
+
+            lineBorderPaint.setStyle(Paint.Style.STROKE);
+            lineBorderPaint.setStrokeWidth(14f);
+            lineBorderPaint.setColor(Color.BLACK);
+            lineBorderPaint.setStrokeCap(Paint.Cap.ROUND);
             
-            // Initialize dots on the left and right sides
+            // Initialize dots for this specific side window
+            float dotX = isRightSide ? 0.75f : 0.25f;
             for (int i = 0; i < DOTS_PER_SIDE; i++) {
-                // Left side dots
-                dots.add(new Dot(0.05f, i / (float)DOTS_PER_SIDE));
-                // Right side dots
-                dots.add(new Dot(0.95f, i / (float)DOTS_PER_SIDE));
+                dots.add(new Dot(dotX, i / (float)DOTS_PER_SIDE));
             }
+
+            // Initialize wind lines within the side window
+            for (int i = 0; i < LINES_PER_SIDE; i++) {
+                float lineX = (float)Math.random() * 0.8f + 0.1f;
+                windLines.add(new WindLine(lineX, i / (float)LINES_PER_SIDE));
+            }
+
             lastUpdateTime = System.currentTimeMillis();
         }
 
         public void setAcceleration(float x, float y) {
-            // Ignore X as requested by user
+            this.accelX = x;
             this.accelY = y;
         }
 
@@ -168,42 +215,69 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
             int h = getHeight();
             if (w == 0 || h == 0) return;
 
-            // 1. Smooth the raw input (Low-pass filter)
+            // Physics for Vertical Dots
             filteredAccelY += (accelY - filteredAccelY) * dt * 8f;
-
-            // 2. Define target velocity based on filtered acceleration
-            float targetVelY = 0;
-            if (Math.abs(filteredAccelY) > 0.15f) { // Lower deadzone for higher sensitivity
-                targetVelY = filteredAccelY * 1.2f; // Higher multiplier for speed
-            }
-
-            // 3. Smooth the velocity itself (The "fluidity" or "damping" feel)
-            // This prevents the dots from stopping/starting too abruptly while avoiding "springing back"
+            float targetVelY = (Math.abs(filteredAccelY) > 0.15f) ? filteredAccelY * 1.2f : 0;
             velY += (targetVelY - velY) * dt * 6f;
 
-            for (Dot dot : dots) {
-                // Continuous movement based on current velocity
-                dot.y += velY * dt;
+            // Physics for Horizontal Wind Lines
+            filteredAccelX += (accelX - filteredAccelX) * dt * 8f;
+            float targetVelX = (Math.abs(filteredAccelX) > 0.15f) ? filteredAccelX * 2.5f : 0;
+            velX += (targetVelX - velX) * dt * 6f;
 
-                // Infinite Wrap-around (Scrolling effect)
+            // Draw Dots
+            paint.setAlpha(180);
+            for (Dot dot : dots) {
+                dot.y += velY * dt;
                 if (dot.y < 0) dot.y += 1.0f;
                 if (dot.y > 1.0f) dot.y -= 1.0f;
 
-                // Draw Dot with Border
                 paint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(dot.x * w, dot.y * h, DOT_RADIUS, paint);
                 canvas.drawCircle(dot.x * w, dot.y * h, DOT_RADIUS, borderPaint);
+            }
+
+            // Draw Wind Lines
+            int lineAlpha = (int) (Math.min(1.0f, Math.abs(velX) * 2.0f) * 180);
+            linePaint.setAlpha(lineAlpha);
+            lineBorderPaint.setAlpha((int) (lineAlpha * 0.8f));
+
+            if (lineAlpha > 0) {
+                for (WindLine line : windLines) {
+                    // Increased speed to compensate for 20% window width (5x)
+                    line.x += velX * dt * 5.0f;
+                    
+                    if (line.x < -0.3f) line.x += 1.6f;
+                    if (line.x > 1.3f) line.x -= 1.6f;
+
+                    float startX = line.x * w;
+                    float startY = line.y * h;
+                    float length = w * line.length;
+                    
+                    canvas.drawLine(startX, startY, startX + length, startY, lineBorderPaint);
+                    canvas.drawLine(startX, startY, startX + length, startY, linePaint);
+                }
             }
             
             invalidate();
         }
 
         private static class Dot {
-            float x, y; // Normalized coordinates 0.0 - 1.0
-
+            float x, y;
             Dot(float x, float y) {
                 this.x = x;
                 this.y = y;
+            }
+        }
+
+        private static class WindLine {
+            float x, y;
+            float length;
+
+            WindLine(float x, float y) {
+                this.x = x;
+                this.y = y;
+                this.length = 0.2f + (float)Math.random() * 0.3f;
             }
         }
     }

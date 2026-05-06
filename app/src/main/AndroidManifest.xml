@@ -38,6 +38,10 @@
             android:name=".SettingsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".DiceActivity"
+            android:exported="false" />
+
         <service
             android:name=".BrightnessService"
             android:exported="false"

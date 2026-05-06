@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             startActivity(new Intent(this, SettingsActivity.class));
         });
         findViewById(R.id.app_anti_motion).setOnClickListener(v -> toggleAntiMotionMode());
+        findViewById(R.id.app_dice).setOnClickListener(v -> {
+            startActivity(new Intent(this, DiceActivity.class));
+        });
     }
 
     private Intent intentWithProvider(Class<?> cls) {
