@@ -217,12 +217,12 @@ public class AntiMotionSicknessService extends Service implements SensorEventLis
 
             // Physics for Vertical Dots
             filteredAccelY += (accelY - filteredAccelY) * dt * 8f;
-            float targetVelY = (Math.abs(filteredAccelY) > 0.15f) ? filteredAccelY * 1.2f : 0;
+            float targetVelY = (Math.abs(filteredAccelY) > 0.15f) ? -filteredAccelY * 1.2f : 0;
             velY += (targetVelY - velY) * dt * 6f;
 
             // Physics for Horizontal Wind Lines
             filteredAccelX += (accelX - filteredAccelX) * dt * 8f;
-            float targetVelX = (Math.abs(filteredAccelX) > 0.15f) ? filteredAccelX * 2.5f : 0;
+            float targetVelX = (Math.abs(filteredAccelX) > 0.15f) ? -filteredAccelX * 2.5f : 0;
             velX += (targetVelX - velX) * dt * 6f;
 
             // Draw Dots

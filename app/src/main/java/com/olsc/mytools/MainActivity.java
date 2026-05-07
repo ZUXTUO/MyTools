@@ -189,14 +189,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         
         Runnable generate = () -> {
             String result = generateTrueRandomResult();
+            resultText.animate().cancel(); // Prevent animation overlap
             resultText.setText(result);
+            
+            // Use theme-aware colors instead of hardcoded hex to ensure visibility in Dark Mode
+            int primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.text_primary);
+            int secondaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.text_secondary);
+            
             if (result.equals(getString(R.string.random_res_plus))) {
-                resultText.setTextColor(android.graphics.Color.parseColor("#000000"));
+                resultText.setTextColor(primaryColor);
             } else {
-                resultText.setTextColor(android.graphics.Color.parseColor("#666666"));
+                resultText.setTextColor(secondaryColor);
             }
+            
             resultText.setAlpha(0f);
-            resultText.animate().alpha(1f).setDuration(500).start();
+            resultText.animate()
+                    .alpha(1f)
+                    .setDuration(500)
+                    .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                    .start();
         };
 
         btnRetry.setOnClickListener(v -> generate.run());
@@ -208,25 +219,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private String generateTrueRandomResult() {
         try {
-            long timestamp = System.nanoTime();
+            long nanoTime = System.nanoTime();
+            long currentTime = System.currentTimeMillis();
+            long freeMem = Runtime.getRuntime().freeMemory();
             int batteryLevel = getBatteryLevel();
+            
             StringBuilder entropySource = new StringBuilder();
-            entropySource.append(timestamp).append(pressureValue);
-            entropySource.append(gravityValues[0]).append(gravityValues[1]).append(gravityValues[2]);
-            entropySource.append(batteryLevel);
+            entropySource.append(nanoTime).append(currentTime).append(freeMem);
+            entropySource.append(pressureValue).append(batteryLevel);
+            entropySource.append(java.util.Arrays.toString(gravityValues));
+            entropySource.append(Build.FINGERPRINT).append(Build.MODEL); // Device-specific entropy
             
             byte[] entropyHash = sha256(entropySource.toString());
             byte[] sutraBytes = DIAMOND_SUTRA_EXCERPT.getBytes(StandardCharsets.UTF_8);
             
             long finalValue = 0;
             for (int i = 0; i < entropyHash.length; i++) {
+                // Mix entropy with matrix text
                 int mixed = (entropyHash[i] ^ sutraBytes[i % sutraBytes.length]) & 0xFF;
                 finalValue += mixed;
-                finalValue = Long.rotateLeft(finalValue, 3);
+                finalValue = Long.rotateLeft(finalValue, i % 7 + 1); // More varied rotation
             }
             
-            return (finalValue % 2 == 0) ? getString(R.string.random_res_plus) : getString(R.string.random_res_minus);
+            // Ensure we use the full value for the final decision
+            return (Math.abs(finalValue) % 2 == 0) ? getString(R.string.random_res_plus) : getString(R.string.random_res_minus);
         } catch (Exception e) {
+            e.printStackTrace();
             return "?";
         }
     }
