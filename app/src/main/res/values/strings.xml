@@ -71,4 +71,16 @@
         <item>Cyan</item>
         <item>Magenta</item>
     </string-array>
+    <string name="dice_title">Dice Roller</string>
+    <string name="dice_desc">Customizable dice for gaming and board games</string>
+    <string name="dice_faces_label">Faces: %d</string>
+    <string name="dice_count_label">Count: %d</string>
+    <string name="dice_roll_btn">Roll Dice</string>
+    <string name="dice_total">Total: %d</string>
+    <string name="dice_result_header">Roll Results</string>
+    <string name="dice_history_header">Recent History</string>
+    <string name="dice_set_max_title">Set Maximum Value</string>
+    <string name="dice_history_empty">No history yet</string>
+    <string name="dice_rolling">Rolling...</string>
+    <string name="dice_history_total">Total: %d</string>
 </resources>

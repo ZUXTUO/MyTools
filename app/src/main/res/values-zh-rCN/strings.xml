@@ -71,4 +71,16 @@
         <item>青色</item>
         <item>洋红色</item>
     </string-array>
+    <string name="dice_title">随机骰子</string>
+    <string name="dice_desc">可自定义面数和数量，适用于游戏或决策</string>
+    <string name="dice_faces_label">骰子面数: %d</string>
+    <string name="dice_count_label">骰子数量: %d</string>
+    <string name="dice_roll_btn">掷骰子</string>
+    <string name="dice_total">合计: %d</string>
+    <string name="dice_result_header">掷骰结果</string>
+    <string name="dice_history_header">投掷历史</string>
+    <string name="dice_set_max_title">设置拖动条最大值</string>
+    <string name="dice_history_empty">暂无历史记录</string>
+    <string name="dice_rolling">正在投掷...</string>
+    <string name="dice_history_total">合计: %d</string>
 </resources>
