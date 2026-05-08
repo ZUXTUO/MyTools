@@ -22,4 +22,5 @@
     <color name="accent">#FFFFFF</color>
     <color name="color_on_accent">#000000</color>
     <color name="bg_card">#1E1E1E</color>
+    <color name="accent_chat_variant">#E0E0E0</color>
 </resources>

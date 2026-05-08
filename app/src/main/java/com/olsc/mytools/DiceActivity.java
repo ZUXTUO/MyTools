@@ -226,7 +226,7 @@ public class DiceActivity extends AppCompatActivity {
             chip.setCheckable(false);
             chip.setClickable(false);
             chip.setChipBackgroundColorResource(R.color.bg_surface);
-            chip.setTextColor(getResources().getColor(R.color.text_primary));
+            chip.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_primary));
             resultsChipGroup.addView(chip);
         }
 
@@ -284,7 +284,7 @@ public class DiceActivity extends AppCompatActivity {
         if (history.isEmpty()) {
             TextView empty = new TextView(this);
             empty.setText(R.string.dice_history_empty);
-            empty.setTextColor(getResources().getColor(R.color.text_secondary));
+            empty.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_secondary));
             empty.setTextSize(14);
             historyContainer.addView(empty);
             return;
@@ -300,9 +300,9 @@ public class DiceActivity extends AppCompatActivity {
             TextView text2 = item.findViewById(android.R.id.text2);
             
             text1.setText(getString(R.string.dice_history_total, Integer.parseInt(parts[0])));
-            text1.setTextColor(getResources().getColor(R.color.text_primary));
+            text1.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_primary));
             text2.setText(parts[1].replace("[", "").replace("]", ""));
-            text2.setTextColor(getResources().getColor(R.color.text_secondary));
+            text2.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_secondary));
             
             historyContainer.addView(item);
         }

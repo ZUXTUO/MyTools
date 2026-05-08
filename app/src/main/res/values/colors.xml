@@ -26,4 +26,5 @@
     <color name="background">#FFFFFF</color>
     <color name="color_on_accent">#FFFFFF</color>
     <color name="bg_card">#F8F8F8</color>
+    <color name="accent_chat_variant">#1A1A1A</color>
 </resources>

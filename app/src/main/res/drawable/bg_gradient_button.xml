@@ -3,7 +3,11 @@
     android:color="#40888888">
     <item>
         <shape>
-            <solid android:color="@color/accent_chat" />
+            <gradient
+                android:angle="270"
+                android:startColor="@color/accent_chat"
+                android:endColor="@color/accent_chat_variant"
+                android:type="linear" />
             <corners android:radius="24dp" />
         </shape>
     </item>
